@@ -1,3 +1,4 @@
 [submodule "blazegraph-python"]
 	path = blazegraph-python
 	url = https://github.com/blazegraph/blazegraph-python
+	ignore = dirty
