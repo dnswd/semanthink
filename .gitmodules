@@ -1,3 +1,3 @@
 [submodule "blazegraph-python"]
 	path = blazegraph-python
-	url = https://github.com/blazegraph/blazegraph-python
+	url = git@github.com:dnswd/blazegraph-python.git
