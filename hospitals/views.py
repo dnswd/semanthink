@@ -30,22 +30,21 @@ def filters(request):
 	emergency = request.GET.get('emergency', '')
 	ehr = request.GET.get('ehr', '')
 	
-	filters = []
 	if state:
-		filters.extend(get_rs_by_state(state))
+		results = get_rs_by_state(state)
 	if city:
-		filters.extend(get_rs_by_city(city))
+		results = get_rs_by_city(city)
 	if tipe:
-		filters.extend(get_rs_by_tipe(tipe))
+		results = get_rs_by_tipe(tipe)
 	if ownership:
-		filters.extend(get_rs_by_ownership(ownership))
+		results = get_rs_by_ownership(ownership)
 	if rating:
-		filters.extend(get_rs_by_rating(rating))
+		results = get_rs_by_rating(rating)
 	if emergency:
-		filters.extend(get_rs_by_emergency(emergency))
+		results = get_rs_by_emergency(emergency)
 	if ehr:
-		filters.extend(get_rs_by_ehr(ehr))
+		results = get_rs_by_ehr(ehr)
 	
-	index_context['filters'] = filters
+	index_context['results'] = results
   
 	return render(request, 'index.html', index_context)

@@ -270,7 +270,14 @@
 
             </div>
 
-          {{ filters }}
+            {% for result in results %}
+            <div class="card">
+              <div class="card-body">
+                {{ result }}
+              </div>
+            </div>
+            {% endfor %}
+            
     </div>
     </div>
     </div>
