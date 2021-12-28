@@ -271,6 +271,9 @@
       </div>
 
             </div>
+
+            <p>Applied filter: {% if q %}{{ q }}{% endif %}</p>
+
             {% if results %}
             {% for result in results %}
             <div class="card">
