@@ -29,86 +29,248 @@
         <button class="btn btn-primary" id="search">Cari</button>
       </div>
 
-      <h5>Apply filter(s):</h5>
-      <div class="win-sm d-sm-flex mb-4">
-        <form name="filter" method="GET" action="{% url 'filter' %}">
-          <div class="form-row align-items-center">
-            <div class="col-auto my-1">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">State</label>
-              <select name="state" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option value="" selected>Choose...</option>
-                {% for state in states %}
-                <option value="{{ state }}">{{ state }}</option>
-                {% endfor %}
-              </select>
-            </div>
+      <h5>Apply filter by:</h5>
+      <p>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterState"
+          aria-expanded="false"
+        >
+          State
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterCity"
+          aria-expanded="false"
+        >
+          City
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterTipe"
+          aria-expanded="false"
+        >
+          Type
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterOwnership"
+          aria-expanded="false"
+        >
+          Ownership
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterRating"
+          aria-expanded="false"
+        >
+          Rating
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterEmergency"
+          aria-expanded="false"
+        >
+          Emergency
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterEhr"
+          aria-expanded="false"
+        >
+          EHR
+        </button>
+      </p>
 
-            <div class="col-auto my-1">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">City</label>
-              <select name="city" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option value="" selected>Choose...</option>
-                {% for city in cities %}
-                <option value="{{ city }}">{{ city }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="col-auto my-1">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">Type</label>
-              <select name="type" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option value="" selected>Choose...</option>
-                {% for type in types %}
-                <option value="{{ type }}">{{ type }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="col-auto my-1">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">Ownership</label>
-              <select name="ownership" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option value="" selected>Choose...</option>
-                {% for o in ownerships %}
-                <option value="{{ o }}">{{ o }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="col-auto my-1">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">Rating</label>
-              <select name="rating" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option value="" selected>Choose...</option>
-                {% for rating in ratings %}
-                <option value="{{ rating }}">{{ rating }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="col-auto my-1">
-              <label class="mr-sm-2" for="inlineFormCustomSelect">Emergency Service</label>
-              <select name="emergency" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option value="" selected>Choose...</option>
-                {% for e in emergencies %}
-                <option value="{{ e }}">{{ e }}</option>
-                {% endfor %}
-              </select>
-            </div>
-
-            <div class="col-auto my-1">
-              <div class="custom-control custom-checkbox mr-sm-2">
-                <input name="ehr" type="checkbox" class="custom-control-input" id="customControlAutosizing">
-                <label class="custom-control-label" for="customControlAutosizing">Meets meaningful use of EHRs</label>
+      <div class="collapse" id="filterState">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="state"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a state...</option>
+                  {% for state in states %}
+                  <option value="{{ state }}">{{ state }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
               </div>
             </div>
-
-            <div class="col-auto my-1">
-              <button type="submit" class="btn btn-primary">Apply</button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
-      {{ filters }}
+      <div class="collapse" id="filterCity">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="city"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a city...</option>
+                  {% for city in cities %}
+                  <option value="{{ city }}">{{ city }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
+      <div class="collapse" id="filterTipe">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="tipe"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a type...</option>
+                  {% for tipe in tipes %}
+                  <option value="{{ tipe }}">{{ tipe }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterOwnership">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="ownership"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose an ownership...</option>
+                  {% for o in ownerships %}
+                  <option value="{{ o }}">{{ o }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterRating">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="rating"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a rating...</option>
+                  {% for rating in ratings %}
+                  <option value="{{ rating }}">{{ rating }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterEmergency">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="emergentcy"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Has emergency?</option>
+                  {% for e in emergencies %}
+                  <option value="{{ e }}">{{ e }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterEhr">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  <input
+                    name="ehr"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customControlAutosizing"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customControlAutosizing"
+                    >Meets meaningful use of EHRs</label
+                  >
+                </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+            </div>
+
+          {{ filters }}
+    </div>
+    </div>
     </div>
 
     <script
