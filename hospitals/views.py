@@ -14,6 +14,8 @@ prefixes = '''
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 '''
 
+index_context = dict()
+
 def index(request):
     states = server.query(prefixes + 
 		'''
@@ -78,13 +80,17 @@ def index(request):
     ratings = [rating['rating']['value'] for rating in ratings['results']['bindings']]
     emergencies = [emergency['emergency']['value'] for emergency in emergencies['results']['bindings']]
         
-    context = {
-		'states': states,
-  		'cities': cities,
-		'types': types,
-		'ownerships': ownerships,
-		'ratings': ratings,
-		'emergencies': emergencies,
-	}
+    index_context['states'] = states
+    index_context['cities'] = cities
+    index_context['types'] = types
+    index_context['ownerships'] = ownerships
+    index_context['ratings'] = ratings
+    index_context['emergencies'] = emergencies
     
-    return render(request, 'index.html', context)
+    return render(request, 'index.html', index_context)
+
+def filters(request):  
+	filters =  request.GET.get('city', '')    
+	index_context['filters'] = filters
+
+	return render(request, 'index.html', index_context)

@@ -29,14 +29,14 @@
         <button class="btn btn-primary" id="search">Cari</button>
       </div>
 
-      <h5>Apply filter:</h5>
+      <h5>Apply filter(s):</h5>
       <div class="win-sm d-sm-flex mb-4">
-        <form name="filter" method="GET" action="{% url 'index' %}">
+        <form name="filter" method="GET" action="{% url 'filter' %}">
           <div class="form-row align-items-center">
             <div class="col-auto my-1">
               <label class="mr-sm-2" for="inlineFormCustomSelect">State</label>
-              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+              <select name="state" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option value="null" selected>Choose...</option>
                 {% for state in states %}
                 <option value="{{ state }}">{{ state }}</option>
                 {% endfor %}
@@ -45,8 +45,8 @@
 
             <div class="col-auto my-1">
               <label class="mr-sm-2" for="inlineFormCustomSelect">City</label>
-              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+              <select name="city" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option value="null" selected>Choose...</option>
                 {% for city in cities %}
                 <option value="{{ city }}">{{ city }}</option>
                 {% endfor %}
@@ -55,8 +55,8 @@
 
             <div class="col-auto my-1">
               <label class="mr-sm-2" for="inlineFormCustomSelect">Type</label>
-              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+              <select name="type" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option value="null" selected>Choose...</option>
                 {% for type in types %}
                 <option value="{{ type }}">{{ type }}</option>
                 {% endfor %}
@@ -65,8 +65,8 @@
 
             <div class="col-auto my-1">
               <label class="mr-sm-2" for="inlineFormCustomSelect">Ownership</label>
-              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+              <select name="ownership" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option value="null" selected>Choose...</option>
                 {% for o in ownerships %}
                 <option value="{{ o }}">{{ o }}</option>
                 {% endfor %}
@@ -75,8 +75,8 @@
 
             <div class="col-auto my-1">
               <label class="mr-sm-2" for="inlineFormCustomSelect">Rating</label>
-              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+              <select name="rating" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option value="null" selected>Choose...</option>
                 {% for rating in ratings %}
                 <option value="{{ rating }}">{{ rating }}</option>
                 {% endfor %}
@@ -85,8 +85,8 @@
 
             <div class="col-auto my-1">
               <label class="mr-sm-2" for="inlineFormCustomSelect">Emergency Service</label>
-              <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                <option selected>Choose...</option>
+              <select name="emergency" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                <option value="null" selected>Choose...</option>
                 {% for e in emergencies %}
                 <option value="{{ e }}">{{ e }}</option>
                 {% endfor %}
@@ -101,11 +101,14 @@
             </div>
 
             <div class="col-auto my-1">
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="submit" class="btn btn-primary">Apply</button>
             </div>
           </div>
         </form>
       </div>
+
+      {{ filters }}
+
     </div>
 
     <script
