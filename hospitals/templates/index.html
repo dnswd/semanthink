@@ -19,15 +19,17 @@
       <div class="win-sm">
         <h1>Hospital Ratings</h1>
       </div>
+      <form name="filter" method="GET" action="{% url 'filter' %}">
       <div class="win-sm d-sm-flex mb-4">
         <input
           type="text"
-          name="q"
+          name="rs"
           class="form-control"
           placeholder="Cari rumah sakit..."
         />
         <button class="btn btn-primary" id="search">Cari</button>
       </div>
+      </form>
 
       <h5>Filter by:</h5>
       <p>
@@ -269,7 +271,7 @@
       </div>
 
             </div>
-
+            {% if results %}
             {% for result in results %}
             <div class="card">
               <div class="card-body">
@@ -277,6 +279,7 @@
               </div>
             </div>
             {% endfor %}
+            {% endif %}
             
     </div>
     </div>

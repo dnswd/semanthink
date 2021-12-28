@@ -22,6 +22,7 @@ def index(request):
 	return render(request, 'index.html', index_context)
 
 def filters(request):  
+	rs = request.GET.get('rs', '')
 	state = request.GET.get('state', '')
 	city = request.GET.get('city', '')
 	tipe = request.GET.get('tipe', '')
@@ -29,7 +30,12 @@ def filters(request):
 	rating = request.GET.get('rating', '')
 	emergency = request.GET.get('emergency', '')
 	ehr = request.GET.get('ehr', '')
-	
+
+	if rs:
+		try:
+			results = get_rs(rs)
+		except:
+			results = None
 	if state:
 		results = get_rs_by_state(state)
 	if city:

@@ -80,6 +80,17 @@ def get_emergency():
 	emergency = query(GET_EMERGENCIES)
 	return [emergency['emergency']['value'] for emergency in emergency['results']['bindings']]
 
+def get_rs(rs):
+	GET_RS = '''
+			SELECT ?rs
+			WHERE {
+				?s a <http://dbpedia.org/resource/Hospital> .
+				?s foaf:name ?rs .
+				FILTER (regex(str(?rs), "%s", "i"))
+			} ORDER BY ?rs
+		''' % rs
+	return rs_res(query(GET_RS))
+
 def get_rs_by_state(state):
 	GET_STATE = '''
 				SELECT ?rs
