@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from pymantic import sparql
 
-server = sparql.SPARQLServer('http://192.168.100.5:9999/blazegraph/namespace/kb/sparql')
+server = sparql.SPARQLServer('http://localhost:9999/blazegraph/namespace/kb/sparql')
 
 # Loading data to Blazegraph
 server.update('load <https://github.com/dnswd/semanthink/raw/main/hospital-ratings-rdf-5.ttl>')
