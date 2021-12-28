@@ -1,96 +1,33 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from pymantic import sparql
-
-server = sparql.SPARQLServer('http://localhost:9999/blazegraph/namespace/kb/sparql')
-
-# Loading data to Blazegraph
-server.update('load <https://github.com/dnswd/semanthink/raw/main/hospital-ratings-rdf-5.ttl>')
-
-prefixes = '''
-	PREFIX : <http://example.org/>
-	PREFIX schema: <http://schema.org/>
-	PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-'''
+from .utils import *
 
 index_context = dict()
 
 def index(request):
-    states = server.query(prefixes + 
-		'''
-			SELECT DISTINCT ?stateName
-			WHERE {
-				?s :state ?state .
-				?state foaf:name ?stateName .
-			} ORDER BY ?stateName
-		'''
-	)
-    
-    cities = server.query(prefixes + 
-		'''
-			SELECT DISTINCT ?cityName
-			WHERE {
-				?s :city ?city .
-				?city foaf:name ?cityName .
-			} ORDER BY ?cityName
-		'''
-	)
-    
-    types = server.query(prefixes + 
-		'''
-			SELECT DISTINCT ?type
-			WHERE {
-				?rs :type ?type .
-			} ORDER BY ?type
-		'''
-	)
-    
-    ownerships = server.query(prefixes + 
-		'''
-			SELECT DISTINCT ?ownership
-			WHERE {
-				?rs :ownership ?ownership .
-			} ORDER BY ?ownership
-		'''
-	)
-    
-    ratings = server.query(prefixes + 
-		'''
-			SELECT DISTINCT ?rating
-			WHERE {
-				?rs :rating ?rating .
-			} ORDER BY DESC(?rating)
-		'''
-	)
-    
-    emergencies = server.query(prefixes + 
-		'''
-			SELECT DISTINCT ?emergency
-			WHERE {
-				?rs :hasEmergencyServices ?emergency .
-			} ORDER BY DESC(?emergency)
-		'''
-	)
-    
-    states = [state['stateName']['value'] for state in states['results']['bindings']]
-    cities = [city['cityName']['value'] for city in cities['results']['bindings']]
-    types = [type['type']['value'] for type in types['results']['bindings']]
-    ownerships = [ownership['ownership']['value'] for ownership in ownerships['results']['bindings']]
-    ratings = [rating['rating']['value'] for rating in ratings['results']['bindings']]
-    emergencies = [emergency['emergency']['value'] for emergency in emergencies['results']['bindings']]
-        
-    index_context['states'] = states
-    index_context['cities'] = cities
-    index_context['types'] = types
-    index_context['ownerships'] = ownerships
-    index_context['ratings'] = ratings
-    index_context['emergencies'] = emergencies
-    
-    return render(request, 'index.html', index_context)
+	states = get_states()
+	cities = get_cities()
+	types = get_types()
+	ownerships = get_ownerships()
+	ratings = get_ratings()
+	emergencies = get_emergency_services()
+		
+	index_context['states'] = states
+	index_context['cities'] = cities
+	index_context['types'] = types
+	index_context['ownerships'] = ownerships
+	index_context['ratings'] = ratings
+	index_context['emergencies'] = emergencies
+	
+	return render(request, 'index.html', index_context)
 
 def filters(request):  
-	filters =  request.GET.get('city', '')    
-	index_context['filters'] = filters
-
+	state = request.GET.get('state', '')
+	city = request.GET.get('city', '')
+	tipe = request.GET.get('type', '')
+	ownership = request.GET.get('ownership', '')
+	rating = request.GET.get('rating', '')
+	emergency = request.GET.get('emergency', '')
+	ehr = request.GET.get('ehr', '')
+ 
 	return render(request, 'index.html', index_context)
