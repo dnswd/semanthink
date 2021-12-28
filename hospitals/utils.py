@@ -122,7 +122,7 @@ def get_rs_by_rating(rating):
 	GET_RATING = '''
 				SELECT ?rs
 				WHERE {
-					?rs :rating "%s" .
+					?rs :rating %s .
 				} ORDER BY ?rs
 			''' % rating
 	return rs_res(query(GET_RATING))
