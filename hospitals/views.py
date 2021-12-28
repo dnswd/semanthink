@@ -15,18 +15,32 @@ prefixes = '''
 '''
 
 def index(request):
-    result = server.query(prefixes + 
+    states = server.query(prefixes + 
 		'''
-			SELECT * WHERE { ?s :rating 4 }
+			SELECT DISTINCT ?stateName
+			WHERE {
+			?s :state ?state .
+			?state foaf:name ?stateName .
+			} ORDER BY ?stateName
 		'''
 	)
     
-    res = []
-    for b in result['results']['bindings']:
-        res.append(b['s']['value'])
+    cities = server.query(prefixes + 
+		'''
+			SELECT DISTINCT ?cityName
+			WHERE {
+			?s :city ?city .
+			?city foaf:name ?cityName .
+			} ORDER BY ?cityName
+		'''
+	)
+    
+    states = [state['stateName']['value'] for state in states['results']['bindings']]
+    cities = [city['cityName']['value'] for city in cities['results']['bindings']]
         
     context = {
-		'res': res,
+		'states': states,
+  		'cities': cities,
 	}
     
     return render(request, 'index.html', context)
