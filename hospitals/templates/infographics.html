@@ -19,42 +19,11 @@
     <title>Infographics</title>
   </head>
   <body>
-    <div class="row mt-3">
-      <div class="col-md-2">
-        <canvas id="er_count_pie" width="200" height="200"></canvas>
-        <script>
-          const ctx = document.getElementById("er_count_pie");
-          const myChart = new Chart(ctx, {
-            type: "pie",
-            data: {
-              labels: ['Yes', 'No'],
-              datasets: [
-                {
-                  data: [{{ hospitalWithEr }},{{ hospitalWithNoEr }}],
-                  backgroundColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)"
-                  ],
-                  borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                  ],
-                  borderWidth: 1,
-                },
-              ],
-            },
-            options: {
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Number of Hospitals with Emergency Services'
-                    }
-                }
-            },
-          });
-        </script>
+    <div class="container-fluid p-5">
+      <div class="win-sm">
+        <h1>Infographics</h1>
       </div>
-      <div class="col-md-8">
+      <div class="row justify-content-center">
         <canvas id="patient_experience_bar" width="600" height="200"></canvas>
         <script>
           const experienceCanvas = document.getElementById('patient_experience_bar')
@@ -81,9 +50,7 @@
           })
         </script>
       </div>
-    </div>
-    <div class="row mt-3">
-      <div class="col-md-8">
+      <div class="row justify-content-center">
         <canvas id="overall_ratings_bar" width="600" height="200"></canvas>
         <script>
           const ratingsCanvas = document.getElementById('overall_ratings_bar')
@@ -109,6 +76,42 @@
             },
           })
         </script>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-auto">
+          <canvas id="er_count_pie"></canvas>
+          <script>
+            const ctx = document.getElementById("er_count_pie");
+            const myChart = new Chart(ctx, {
+              type: "pie",
+              data: {
+                labels: ['Yes', 'No'],
+                datasets: [
+                  {
+                    data: [{{ hospitalWithEr }},{{ hospitalWithNoEr }}],
+                    backgroundColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)"
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: 'Number of Hospitals with Emergency Services'
+                      }
+                  }
+              },
+            });
+          </script>
+        </div>
       </div>
     </div>
     <!-- Optional JavaScript; choose one of the two! -->
