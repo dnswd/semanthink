@@ -1,12 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Hospital Ratings</title>
-</head>
-<body>
-	{{ res }}
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <title>Hospital Ratings</title>
+  </head>
+  <body>
+    <div class="container-fluid p-5">
+      <div class="win-sm">
+        <h1>Hospital Ratings</h1>
+      </div>
+      <form name="filter" method="GET" action="{% url 'filter' %}">
+      <div class="win-sm d-sm-flex mb-4">
+        <input
+          type="text"
+          name="rs"
+          class="form-control"
+          placeholder="Cari rumah sakit..."
+        />
+        <button class="btn btn-primary" id="search">Cari</button>
+      </div>
+      </form>
+
+      <h5>Filter by:</h5>
+      <p>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterState"
+          aria-expanded="false"
+        >
+          State
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterCity"
+          aria-expanded="false"
+        >
+          City
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterTipe"
+          aria-expanded="false"
+        >
+          Type
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterOwnership"
+          aria-expanded="false"
+        >
+          Ownership
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterRating"
+          aria-expanded="false"
+        >
+          Rating
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterEmergency"
+          aria-expanded="false"
+        >
+          Emergency
+        </button>
+        <button
+          class="btn"
+          type="button"
+          data-toggle="collapse"
+          data-target="#filterEhr"
+          aria-expanded="false"
+        >
+          EHR
+        </button>
+      </p>
+
+      <div class="collapse" id="filterState">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="state"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a state...</option>
+                  {% for state in states %}
+                  <option value="{{ state }}">{{ state }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterCity">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="city"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a city...</option>
+                  {% for city in cities %}
+                  <option value="{{ city }}">{{ city }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterTipe">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="tipe"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a type...</option>
+                  {% for tipe in tipes %}
+                  <option value="{{ tipe }}">{{ tipe }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterOwnership">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="ownership"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose an ownership...</option>
+                  {% for o in ownerships %}
+                  <option value="{{ o }}">{{ o }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterRating">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="rating"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Choose a rating...</option>
+                  {% for rating in ratings %}
+                  {% if rating != 'Not Available' %}
+                  <option value="{{ rating }}">{{ rating }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterEmergency">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <select
+                  name="emergency"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option value="" selected>Has emergency?</option>
+                  {% for e in emergencies %}
+                  <option value="{{ e }}">{{ e }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="collapse" id="filterEhr">
+        <div class="card card-body">
+          <form name="filter" method="GET" action="{% url 'filter' %}">
+            <div class="form-row align-items-center">
+              <div class="col-auto my-1">
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  <input
+                    name="ehr"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customControlAutosizing"
+                  />
+                  <label
+                    class="custom-control-label"
+                    for="customControlAutosizing"
+                    >Meets meaningful use of EHRs</label
+                  >
+                </div>
+              <div class="col-auto my-1">
+                <button type="submit" class="btn btn-primary">Apply</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+            </div>
+
+            <p>Applied filter: {% if q %}{{ q }}{% endif %}</p>
+
+            {% if results %}
+            {% for result in results %}
+            <div class="card">
+              <div class="card-body">
+                {{ result }}
+              </div>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+    </div>
+    </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </body>
 </html>
