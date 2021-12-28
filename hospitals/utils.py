@@ -84,9 +84,9 @@ def get_rs(rs):
 	GET_RS = '''
 			SELECT ?rs
 			WHERE {
-				?s a <http://dbpedia.org/resource/Hospital> .
-				?s foaf:name ?rs .
-				FILTER (regex(str(?rs), "%s", "i"))
+				?rs a <http://dbpedia.org/resource/Hospital> .
+				?rs foaf:name ?rsName .
+				FILTER (regex(str(?rsName), "%s", "i"))
 			} ORDER BY ?rs
 		''' % rs
 	return rs_res(query(GET_RS))
