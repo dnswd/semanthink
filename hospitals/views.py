@@ -88,9 +88,9 @@ def kb(request: HttpRequest):
         return HttpResponseNotFound("hospital invalid")
 
     ctx = {
-        'hospital': hospital,
-        'UwU': predicate_obj
+        'd': predicate_obj,
+        'n': 'No information'
     }
 
-    return JsonResponse(predicate_obj)
-    # return render(request, 'hospital_kb.html', context=ctx)
+    # return JsonResponse(predicate_obj)
+    return render(request, 'hospital_kb.html', context=ctx)
