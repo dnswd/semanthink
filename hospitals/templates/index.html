@@ -204,7 +204,9 @@
                 >
                   <option value="" selected>Choose a rating...</option>
                   {% for rating in ratings %}
+                  {% if rating != 'Not Available' %}
                   <option value="{{ rating }}">{{ rating }}</option>
+                  {% endif %}
                   {% endfor %}
                 </select>
               </div>
@@ -222,7 +224,7 @@
             <div class="form-row align-items-center">
               <div class="col-auto my-1">
                 <select
-                  name="emergentcy"
+                  name="emergency"
                   class="custom-select mr-sm-2"
                   id="inlineFormCustomSelect"
                 >
