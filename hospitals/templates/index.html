@@ -12,15 +12,23 @@
       crossorigin="anonymous"
     />
     
-    <title>Hospital Ratings</title>
+    <title>SIPRAS</title>
   </head>
   <body>
+    <div class="jumbotron jumbotron-fluid p-12 mb-0">
+      <div class="container">
+        <h1 class="display-4">SIPRAS</h1>
+        <p class="lead">Hospital Search Information System</p>
+        <hr class="my-4">
+        <a href="{% url 'infographics' %}" target="_blank">   
+          <button class="btn btn-info" type="button" style="margin-bottom: 20px;" type="submit">Looking for infographics?</button>
+        </a>
+      </div>
+    </div>
+
     <div class="container-fluid p-5">
-      <a href="{% url 'infographics' %}" target="_blank">   
-        <button class="btn btn-info" type="button" style="margin-bottom: 20px;" type="submit">Looking for infographics?</button>
-      </a>
       <div class="win-sm">
-        <h1>Hospital Ratings</h1>
+        <h2>Search</h2>
       </div>
       <form name="filter" method="GET" action="{% url 'filter' %}">
       <div class="win-sm d-sm-flex mb-4">
@@ -30,7 +38,7 @@
           class="form-control"
           placeholder="Search hospitals..."
         />
-        <button class="btn btn-primary" id="search">Cari</button>
+        <button class="btn btn-primary" id="search">Search</button>
       </div>
       </form>
 
