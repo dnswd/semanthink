@@ -13,17 +13,15 @@ prefixes = '''
 	PREFIX schema: <http://schema.org/>
 	PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-  PREFIX dbo:  <http://dbpedia.org/ontology/> 
+  	PREFIX dbo:  <http://dbpedia.org/ontology/> 
 '''
 
 
 def query(q):
     return server.query(prefixes + q)
 
-
 def rs_res(res):
     return [(r['s']['value'], r['rs']['value']) for r in res['results']['bindings']]
-
 
 def get_states():
     GET_STATES = '''
@@ -36,7 +34,6 @@ def get_states():
     states = query(GET_STATES)
     return [state['stateName']['value'] for state in states['results']['bindings']]
 
-
 def get_cities():
     GET_CITIES = '''
 				SELECT DISTINCT ?cityName
@@ -48,6 +45,25 @@ def get_cities():
     cities = query(GET_CITIES)
     return [city['cityName']['value'] for city in cities['results']['bindings']]
 
+def get_cities_in_dbpedia():
+    GET_CITIES = '''
+				SELECT distinct ?city {
+					?rs :city ?city .
+					FILTER(regex(str(?city), "http://dbpedia.org"))
+				}
+    		'''
+    cities = query(GET_CITIES)
+    return [city['city']['value'] for city in cities['results']['bindings']]
+
+def get_counties_in_dbpedia():
+    GET_COUNTIES = '''
+				SELECT distinct ?county {
+					?rs :county ?county .
+					FILTER(regex(str(?county), "http://dbpedia.org"))
+				}
+    		'''
+    cities = query(GET_COUNTIES)
+    return [city['county']['value'] for city in cities['results']['bindings']]
 
 def get_tipes():
     GET_TYPES = '''
@@ -59,7 +75,6 @@ def get_tipes():
     tipes = query(GET_TYPES)
     return [tipe['tipe']['value'] for tipe in tipes['results']['bindings']]
 
-
 def get_ownerships():
     GET_OWNERSHIPS = '''
 				SELECT DISTINCT ?ownership
@@ -69,7 +84,6 @@ def get_ownerships():
 			'''
     ownerships = query(GET_OWNERSHIPS)
     return [ownership['ownership']['value'] for ownership in ownerships['results']['bindings']]
-
 
 def get_ratings():
     GET_RATINGS = '''
@@ -81,7 +95,6 @@ def get_ratings():
     ratings = query(GET_RATINGS)
     return [rating['rating']['value'] for rating in ratings['results']['bindings']]
 
-
 def get_emergency():
     GET_EMERGENCIES = '''
 				SELECT DISTINCT ?emergency
@@ -91,7 +104,6 @@ def get_emergency():
 			'''
     emergency = query(GET_EMERGENCIES)
     return [emergency['emergency']['value'] for emergency in emergency['results']['bindings']]
-
 
 def get_rs(rs):
     GET_RS = '''
@@ -104,7 +116,6 @@ def get_rs(rs):
 		''' % rs
     return rs_res(query(GET_RS))
 
-
 def get_rs_by_state(state):
     GET_STATE = '''
 				SELECT ?s ?rs
@@ -115,7 +126,6 @@ def get_rs_by_state(state):
 				} ORDER BY ?rs
 			''' % state
     return rs_res(query(GET_STATE))
-
 
 def get_rs_by_city(city):
     GET_CITY = '''
@@ -128,7 +138,6 @@ def get_rs_by_city(city):
 			''' % city
     return rs_res(query(GET_CITY))
 
-
 def get_rs_by_tipe(tipe):
     GET_TYPE = '''
 				SELECT ?s ?rs
@@ -138,7 +147,6 @@ def get_rs_by_tipe(tipe):
 				} ORDER BY ?rs
 			''' % tipe
     return rs_res(query(GET_TYPE))
-
 
 def get_rs_by_ownership(ownership):
     GET_OWNERSHIP = '''
@@ -150,7 +158,6 @@ def get_rs_by_ownership(ownership):
 			''' % ownership
     return rs_res(query(GET_OWNERSHIP))
 
-
 def get_rs_by_rating(rating):
     GET_RATING = '''
 				SELECT ?s ?rs
@@ -160,7 +167,6 @@ def get_rs_by_rating(rating):
 				} ORDER BY ?rs
 			''' % rating
     return rs_res(query(GET_RATING))
-
 
 def get_rs_by_emergency(emergency):
     GET_EMERGENCY = '''
@@ -172,7 +178,6 @@ def get_rs_by_emergency(emergency):
 			''' % emergency
     return rs_res(query(GET_EMERGENCY))
 
-
 def get_rs_by_ehr(ehr):
     GET_EHR = '''
 				SELECT ?s ?rs
@@ -183,7 +188,6 @@ def get_rs_by_ehr(ehr):
 			'''
     return rs_res(query(GET_EHR))
 
-
 def get_hospital_count():
     GET_HOSPITAL_COUNT = '''
 		SELECT (COUNT(?hospital) as ?hospitalCount)
@@ -193,7 +197,6 @@ def get_hospital_count():
 	'''
     hospitalCountQuery = query(GET_HOSPITAL_COUNT)
     return int(hospitalCountQuery['results']['bindings'][0]['hospitalCount']['value'])
-
 
 def get_er_count():
     GET_ER_COUNT = '''
@@ -206,7 +209,6 @@ def get_er_count():
 	'''
     getErCountQuery = query(GET_ER_COUNT)
     return int(getErCountQuery['results']['bindings'][0]['hospitalCount']['value'])
-
 
 def get_patient_experiences_and_count():
     GET_PATIENT_EXPERIENCES_AND_COUNT = '''
@@ -227,7 +229,6 @@ def get_patient_experiences_and_count():
     result['experienceCount'] = patientExperienceCount
     return result
 
-
 def get_hospital_overall_rating_and_count():
     GET_HOSTPITAL_OVERALL_RATING_AND_COUNT = '''
 		SELECT ?rating (COUNT(?hospital) as ?hospitalCount)
@@ -246,7 +247,6 @@ def get_hospital_overall_rating_and_count():
     result['ratingsLabel'] = hospitalRatingLabel
     result['ratingsCount'] = hospitalRatingCount
     return result
-
 
 def get_rs_info(rs: str) -> Dict:
     GET_RS_INFO = (
