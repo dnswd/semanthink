@@ -21,7 +21,7 @@ def query(q):
 
 
 def rs_res(res):
-    return [r['rs']['value'] for r in res['results']['bindings']]
+    return [(r['s']['value'], r['rs']['value']) for r in res['results']['bindings']]
 
 
 def get_states():
@@ -94,11 +94,11 @@ def get_emergency():
 
 def get_rs(rs):
     GET_RS = '''
-			SELECT ?rs
+			SELECT ?s ?rs
 			WHERE {
-				?rs a <http://dbpedia.org/resource/Hospital> .
-				?rs foaf:name ?rsName .
-				FILTER (regex(str(?rsName), "%s", "i"))
+				?s a <http://dbpedia.org/resource/Hospital> .
+				?s foaf:name ?rs .
+				FILTER (regex(str(?rs), "%s", "i"))
 			} ORDER BY ?rs
 		''' % rs
     return rs_res(query(GET_RS))
@@ -106,10 +106,11 @@ def get_rs(rs):
 
 def get_rs_by_state(state):
     GET_STATE = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :state ?state .
+					?s :state ?state .
 					?state foaf:name "%s" .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			''' % state
     return rs_res(query(GET_STATE))
@@ -117,10 +118,11 @@ def get_rs_by_state(state):
 
 def get_rs_by_city(city):
     GET_CITY = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :city ?city .
+					?s :city ?city .
 					?city foaf:name "%s" .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			''' % city
     return rs_res(query(GET_CITY))
@@ -128,9 +130,10 @@ def get_rs_by_city(city):
 
 def get_rs_by_tipe(tipe):
     GET_TYPE = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :type "%s" .
+					?s :type "%s" .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			''' % tipe
     return rs_res(query(GET_TYPE))
@@ -138,9 +141,10 @@ def get_rs_by_tipe(tipe):
 
 def get_rs_by_ownership(ownership):
     GET_OWNERSHIP = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :ownership "%s" .
+					?s :ownership "%s" .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			''' % ownership
     return rs_res(query(GET_OWNERSHIP))
@@ -148,9 +152,10 @@ def get_rs_by_ownership(ownership):
 
 def get_rs_by_rating(rating):
     GET_RATING = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :rating %s .
+					?s :rating %s .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			''' % rating
     return rs_res(query(GET_RATING))
@@ -158,9 +163,10 @@ def get_rs_by_rating(rating):
 
 def get_rs_by_emergency(emergency):
     GET_EMERGENCY = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :hasEmergencyServices "%s" .
+					?s :hasEmergencyServices "%s" .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			''' % emergency
     return rs_res(query(GET_EMERGENCY))
@@ -168,9 +174,10 @@ def get_rs_by_emergency(emergency):
 
 def get_rs_by_ehr(ehr):
 	GET_EHR = '''
-				SELECT ?rs
+				SELECT ?s ?rs
 				WHERE {
-					?rs :meetsMeaningfulUseOfEHRs "Y" .
+					?s :meetsMeaningfulUseOfEHRs "Y" .
+					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			'''
 	return rs_res(query(GET_EHR))

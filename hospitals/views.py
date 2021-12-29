@@ -86,9 +86,16 @@ def filters(request):
         results = get_rs_by_ehr(ehr)
         index_context['q'] = '[EHR] ' + 'Yes'
 
+    res = dict()
     try:
         if results:
-            index_context['results'] = results
+            hospitals = [res[0] for res in results]
+            hospital_names = [res[1] for res in results]
+            index_context['hospitals'] = hospitals
+            index_context['hospital_names'] = hospital_names
+            for i in range(len(hospitals)):
+                res[hospitals[i]] = hospital_names[i]
+            index_context['results'] = res
     except:
         index_context['results'] = None
 

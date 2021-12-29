@@ -278,10 +278,10 @@
             <p>Applied filter: {% if q %}{{ q }}{% endif %}</p>
 
             {% if results %}
-            {% for result in results %}
+            {% for key, val in results.items %}
             <div class="card">
               <div class="card-body">
-                <a href="{% url 'knowledge_box' %}?hospital={{result}}" target="_blank">{{ result }}</a>
+                <a href="{% url 'knowledge_box' %}?hospital={{key}}" target="_blank">{{ val }}</a>
               </div>
             </div>
             {% endfor %}
