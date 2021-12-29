@@ -24,6 +24,42 @@
         <h1>Infographics</h1>
       </div>
       <div class="row justify-content-center">
+        <div class="col-auto">
+          <canvas id="untrackedHospitals"></canvas>
+          <script>
+            const hospitasctx = document.getElementById("untrackedHospitals");
+            const hospitals = new Chart(hospitasctx, {
+              type: "pie",
+              data: {
+                labels: ['Untracked in Kaggle Database', 'Tracked in Kaggle Database'],
+                datasets: [
+                  {
+                    data: [{{ untrackedHospitals }}, {{ trackedHospitals }}],
+                    backgroundColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)"
+                    ],
+                    borderColor: [
+                      "rgba(255, 99, 132, 1)",
+                      "rgba(54, 162, 235, 1)",
+                    ],
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                  plugins: {
+                      title: {
+                          display: true,
+                          text: 'Hospitals in Kaggle Database vs DBpedia Database'
+                      }
+                  }
+              },
+            });
+          </script>
+        </div>
+      </div>
+      <div class="row justify-content-center">
         <canvas id="patient_experience_bar" width="600" height="200"></canvas>
         <script>
           const experienceCanvas = document.getElementById('patient_experience_bar')

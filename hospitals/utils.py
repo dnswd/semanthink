@@ -13,7 +13,9 @@ prefixes = '''
 	PREFIX schema: <http://schema.org/>
 	PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-  	PREFIX dbo:  <http://dbpedia.org/ontology/> 
+	PREFIX dbo:  <http://dbpedia.org/ontology/> 
+	PREFIX dpb:  <http://dbpedia.org/property/>
+	PREFIX dbr: <http://dbpedia.org/resource/>
 '''
 
 
@@ -295,3 +297,34 @@ def get_rs_info(rs: str) -> Dict:
         ''')
     result = query(GET_RS_INFO)
     return result['results']['bindings']
+
+def get_dbpedia_hospital():
+	QUERY = '''
+	SELECT distinct ?hospitalName {
+  service <https://dbpedia.org/sparql> {
+    ?hospital a dbo:Hospital .
+    ?hospital dbo:state ?state .
+    ?state dbo:country ?country .
+    FILTER(?country IN(dbr:United_States))
+	?hospital rdfs:label ?hospitalName .
+	FILTER(lang(?hospitalName) = 'en')
+  }
+}
+	'''
+	getHospitalDBpedia = query(QUERY)
+	resultRaw = [ i['hospitalName']['value'] for i in getHospitalDBpedia['results']['bindings'] ]
+	result = [ i[:len(i) - 3] for i in resultRaw ]
+	return result
+
+def get_local_hospital():
+	QUERY = '''
+	SELECT distinct ?hospitalName 
+	WHERE {
+		?hospital a <http://dbpedia.org/resource/Hospital> .
+		?hospital xsd:name ?hospitalName .
+	}
+	'''
+
+	getHospitalLocal = query(QUERY)
+	result = [ i['hospital']['value'] for i in getHospitalLocal['results']['bindings'] ]
+	return result
