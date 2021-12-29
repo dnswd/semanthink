@@ -53,6 +53,10 @@ def infographics(request):
     ratings_label = get_hospital_overall_rating_and_count()['ratingsLabel']
     ratings_count = get_hospital_overall_rating_and_count()['ratingsCount']
 
+    dbpediaHospitals = [ i.lower() for i in get_dbpedia_hospital() ]
+    print(len(dbpediaHospitals))
+    localHospitals = [ i.lower() for i in get_local_hospital() ]
+
     # Package Data
     context = {
         "hospitalWithNoEr": hospital_count - er_count,
@@ -61,6 +65,8 @@ def infographics(request):
         "experienceCount": experience_count,
         "ratingsLabel": ratings_label,
         "ratingsCount": ratings_count,
+		"untrackedHospitals": len([i for i in dbpediaHospitals if i not in localHospitals ]),
+		"trackedHospitals": len([ i for i in dbpediaHospitals if i in localHospitals ]),
     }
 
     # Return to render
