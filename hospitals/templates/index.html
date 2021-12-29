@@ -17,7 +17,7 @@
   <body>
     <div class="container-fluid p-5">
       <a href="{% url 'infographics' %}" target="_blank">   
-        <button style="margin-bottom: 20px;" type="submit">Looking for infographics?</button>
+        <button class="btn btn-info" type="button" style="margin-bottom: 20px;" type="submit">Looking for infographics?</button>
       </a>
       <div class="win-sm">
         <h1>Hospital Ratings</h1>
@@ -279,7 +279,7 @@
 
             {% if results %}
             {% for key, val in results.items %}
-            <a class="card my-2" href="{% url 'knowledge_box' %}?hospital={{key}}" target="_blank">
+            <a type="button" class="btn btn-light card my-2 text-left" href="{% url 'knowledge_box' %}?hospital={{key}}" target="_blank">
               <div class="card-body">
                 <div class="row">
                   <div class="col">
