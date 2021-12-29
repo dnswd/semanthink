@@ -1,6 +1,6 @@
 from pymantic import sparql
 
-server = sparql.SPARQLServer('http://localhost:9999/blazegraph/namespace/kb/sparql')
+server = sparql.SPARQLServer('http://169.254.0.72:9999/blazegraph/namespace/kb/sparql')
 
 # Loading data to Blazegraph
 server.update('load <https://github.com/dnswd/semanthink/raw/main/hospital-ratings-rdf-5.ttl>')
@@ -155,3 +155,57 @@ def get_rs_by_ehr(ehr):
 				} ORDER BY ?rs
 			'''
 	return rs_res(query(GET_EHR))
+
+def get_hospital_count():
+	GET_HOSPITAL_COUNT = 	'''
+		SELECT (COUNT(?hospital) as ?hospitalCount)
+		WHERE {
+			?hospital a <http://dbpedia.org/resource/Hospital> .
+		}
+	'''
+	hospitalCountQuery = query(GET_HOSPITAL_COUNT)
+	return int(hospitalCountQuery['results']['bindings'][0]['hospitalCount']['value'])
+
+def get_er_count():
+	GET_ER_COUNT = 	'''
+		SELECT (COUNT(?hospital) as ?hospitalCount)
+		WHERE {
+			?hospital a <http://dbpedia.org/resource/Hospital> .
+			?hospital :hasEmergencyServices ?hasEr .
+			FILTER(?hasEr="Yes"^^xsd:string)
+		}
+	'''
+	getErCountQuery = query(GET_ER_COUNT)
+	return int(getErCountQuery['results']['bindings'][0]['hospitalCount']['value'])
+
+def get_patient_experiences_and_count():
+	GET_PATIENT_EXPERIENCES_AND_COUNT = 	'''
+		SELECT ?patientRating (COUNT(?hospital) as ?hospitalCount)
+		WHERE {
+			?hospital a <http://dbpedia.org/resource/Hospital> .
+			?hospital :patientExperience ?patientRating .
+		} GROUP BY ?patientRating
+	'''
+	getPatientExperiencesAndCountQuery = query(GET_PATIENT_EXPERIENCES_AND_COUNT)
+	result = {}
+	patientExperinceLabel = [ i['patientRating']['value'] for i in getPatientExperiencesAndCountQuery['results']['bindings'] ]
+	patientExperienceCount = [ i['hospitalCount']['value'] for i in getPatientExperiencesAndCountQuery['results']['bindings'] ]
+	result['experienceLabel'] = patientExperinceLabel
+	result['experienceCount'] = patientExperienceCount
+	return result
+
+def get_hospital_overall_rating_and_count():
+	GET_HOSTPITAL_OVERALL_RATING_AND_COUNT = 	'''
+		SELECT ?rating (COUNT(?hospital) as ?hospitalCount)
+		WHERE {
+			?hospital a <http://dbpedia.org/resource/Hospital> .
+			?hospital :rating ?rating .
+		} GROUP BY ?rating
+	'''
+	getHospitalRatingsAndCountQuery = query(GET_HOSTPITAL_OVERALL_RATING_AND_COUNT)
+	result = {}
+	hospitalRatingLabel = [ i['rating']['value'] for i in getHospitalRatingsAndCountQuery['results']['bindings'] ]
+	hospitalRatingCount = [ i['hospitalCount']['value'] for i in getHospitalRatingsAndCountQuery['results']['bindings'] ]
+	result['ratingsLabel'] = hospitalRatingLabel
+	result['ratingsCount'] = hospitalRatingCount
+	return result

@@ -2,9 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .utils import *
 
-
-server = sparql.SPARQLServer('http://169.254.0.72:9999/blazegraph/namespace/kb/sparql')
-
 index_context = dict()
 
 
@@ -32,57 +29,16 @@ prefixes = '''
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 '''
 def infographics(request):
-	#TODO: data tidak auto load
 
-	# Queries
-	hospital_count_query = server.query(prefixes +
-	'''
-		SELECT (COUNT(?hospital) as ?hospitalCount)
-		WHERE {
-			?hospital a <http://dbpedia.org/resource/Hospital> .
-		}
-	'''
-	)
-	er_count_query = server.query(prefixes +
-	'''
-		SELECT (COUNT(?hospital) as ?hospitalCount)
-		WHERE {
-			?hospital a <http://dbpedia.org/resource/Hospital> .
-			?hospital :hasEmergencyServices ?hasEr .
-			FILTER(?hasEr="Yes"^^xsd:string)
-		}
-	'''
-	)
-	patient_experience_query = server.query(prefixes +
-	'''
-		SELECT ?patientRating (COUNT(?hospital) as ?hospitalCount)
-		WHERE {
-			?hospital a <http://dbpedia.org/resource/Hospital> .
-			?hospital :patientExperience ?patientRating .
-		} GROUP BY ?patientRating
-	'''
-	)
-	hospital_overall_rating_query = server.query(prefixes +
-	'''
-		SELECT ?rating (COUNT(?hospital) as ?hospitalCount)
-		WHERE {
-			?hospital a <http://dbpedia.org/resource/Hospital> .
-			?hospital :rating ?rating .
-		} GROUP BY ?rating
-	'''
-	)
+	# Make query calls from utils.py, and extract them
+	hospital_count = get_hospital_count()
+	er_count = get_er_count()
 
-	# Extract data from queries
-	hospital_count = int(hospital_count_query['results']['bindings'][0]['hospitalCount']['value'])
-	er_count = int(er_count_query['results']['bindings'][0]['hospitalCount']['value'])
-	patient_experience = patient_experience_query['results']['bindings']
-	ratings = hospital_overall_rating_query['results']['bindings']
-
-	experience_label = [i['patientRating']['value'] for i in patient_experience]
-	experience_count = [i['hospitalCount']['value'] for i in patient_experience]
+	experience_label = get_patient_experiences_and_count()['experienceLabel']
+	experience_count = get_patient_experiences_and_count()['experienceCount']
 	
-	ratings_label = [i['rating']['value'] for i in ratings]
-	ratings_count = [i['hospitalCount']['value'] for i in ratings]\
+	ratings_label = get_hospital_overall_rating_and_count()['ratingsLabel']
+	ratings_count = get_hospital_overall_rating_and_count()['ratingsCount']
 	
 	# Package Data
 	context = {
