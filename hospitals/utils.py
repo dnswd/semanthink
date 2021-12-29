@@ -13,6 +13,7 @@ prefixes = '''
 	PREFIX schema: <http://schema.org/>
 	PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 	PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+  PREFIX dbo:  <http://dbpedia.org/ontology/> 
 '''
 
 
@@ -173,27 +174,29 @@ def get_rs_by_emergency(emergency):
 
 
 def get_rs_by_ehr(ehr):
-	GET_EHR = '''
+    GET_EHR = '''
 				SELECT ?s ?rs
 				WHERE {
 					?s :meetsMeaningfulUseOfEHRs "Y" .
 					?s foaf:name ?rs .
 				} ORDER BY ?rs
 			'''
-	return rs_res(query(GET_EHR))
+    return rs_res(query(GET_EHR))
+
 
 def get_hospital_count():
-	GET_HOSPITAL_COUNT = 	'''
+    GET_HOSPITAL_COUNT = '''
 		SELECT (COUNT(?hospital) as ?hospitalCount)
 		WHERE {
 			?hospital a <http://dbpedia.org/resource/Hospital> .
 		}
 	'''
-	hospitalCountQuery = query(GET_HOSPITAL_COUNT)
-	return int(hospitalCountQuery['results']['bindings'][0]['hospitalCount']['value'])
+    hospitalCountQuery = query(GET_HOSPITAL_COUNT)
+    return int(hospitalCountQuery['results']['bindings'][0]['hospitalCount']['value'])
+
 
 def get_er_count():
-	GET_ER_COUNT = 	'''
+    GET_ER_COUNT = '''
 		SELECT (COUNT(?hospital) as ?hospitalCount)
 		WHERE {
 			?hospital a <http://dbpedia.org/resource/Hospital> .
@@ -201,40 +204,49 @@ def get_er_count():
 			FILTER(?hasEr="Yes"^^xsd:string)
 		}
 	'''
-	getErCountQuery = query(GET_ER_COUNT)
-	return int(getErCountQuery['results']['bindings'][0]['hospitalCount']['value'])
+    getErCountQuery = query(GET_ER_COUNT)
+    return int(getErCountQuery['results']['bindings'][0]['hospitalCount']['value'])
+
 
 def get_patient_experiences_and_count():
-	GET_PATIENT_EXPERIENCES_AND_COUNT = 	'''
+    GET_PATIENT_EXPERIENCES_AND_COUNT = '''
 		SELECT ?patientRating (COUNT(?hospital) as ?hospitalCount)
 		WHERE {
 			?hospital a <http://dbpedia.org/resource/Hospital> .
 			?hospital :patientExperience ?patientRating .
 		} GROUP BY ?patientRating
 	'''
-	getPatientExperiencesAndCountQuery = query(GET_PATIENT_EXPERIENCES_AND_COUNT)
-	result = {}
-	patientExperinceLabel = [ i['patientRating']['value'] for i in getPatientExperiencesAndCountQuery['results']['bindings'] ]
-	patientExperienceCount = [ i['hospitalCount']['value'] for i in getPatientExperiencesAndCountQuery['results']['bindings'] ]
-	result['experienceLabel'] = patientExperinceLabel
-	result['experienceCount'] = patientExperienceCount
-	return result
+    getPatientExperiencesAndCountQuery = query(
+        GET_PATIENT_EXPERIENCES_AND_COUNT)
+    result = {}
+    patientExperinceLabel = [i['patientRating']['value']
+                             for i in getPatientExperiencesAndCountQuery['results']['bindings']]
+    patientExperienceCount = [i['hospitalCount']['value']
+                              for i in getPatientExperiencesAndCountQuery['results']['bindings']]
+    result['experienceLabel'] = patientExperinceLabel
+    result['experienceCount'] = patientExperienceCount
+    return result
+
 
 def get_hospital_overall_rating_and_count():
-	GET_HOSTPITAL_OVERALL_RATING_AND_COUNT = 	'''
+    GET_HOSTPITAL_OVERALL_RATING_AND_COUNT = '''
 		SELECT ?rating (COUNT(?hospital) as ?hospitalCount)
 		WHERE {
 			?hospital a <http://dbpedia.org/resource/Hospital> .
 			?hospital :rating ?rating .
 		} GROUP BY ?rating
 	'''
-	getHospitalRatingsAndCountQuery = query(GET_HOSTPITAL_OVERALL_RATING_AND_COUNT)
-	result = {}
-	hospitalRatingLabel = [ i['rating']['value'] for i in getHospitalRatingsAndCountQuery['results']['bindings'] ]
-	hospitalRatingCount = [ i['hospitalCount']['value'] for i in getHospitalRatingsAndCountQuery['results']['bindings'] ]
-	result['ratingsLabel'] = hospitalRatingLabel
-	result['ratingsCount'] = hospitalRatingCount
-	return result
+    getHospitalRatingsAndCountQuery = query(
+        GET_HOSTPITAL_OVERALL_RATING_AND_COUNT)
+    result = {}
+    hospitalRatingLabel = [i['rating']['value']
+                           for i in getHospitalRatingsAndCountQuery['results']['bindings']]
+    hospitalRatingCount = [i['hospitalCount']['value']
+                           for i in getHospitalRatingsAndCountQuery['results']['bindings']]
+    result['ratingsLabel'] = hospitalRatingLabel
+    result['ratingsCount'] = hospitalRatingCount
+    return result
+
 
 def get_rs_info(rs: str) -> Dict:
     GET_RS_INFO = (
@@ -273,6 +285,13 @@ def get_rs_info(rs: str) -> Dict:
           ?county_uri foaf:name ?county .
           ?state_uri foaf:name ?state .
         '''
-        '}')
+        '''
+          OPTIONAL {
+				    service <https://dbpedia.org/sparql> {
+                ?county_uri dbo:country ?country .
+            }	
+				  }
+        }
+        ''')
     result = query(GET_RS_INFO)
     return result['results']['bindings']

@@ -23,6 +23,7 @@ def index(request):
 
     return render(request, 'index.html', index_context)
 
+
 def infographics(request):
 
     # Make query calls from utils.py, and extract them
@@ -31,22 +32,23 @@ def infographics(request):
 
     experience_label = get_patient_experiences_and_count()['experienceLabel']
     experience_count = get_patient_experiences_and_count()['experienceCount']
-    
+
     ratings_label = get_hospital_overall_rating_and_count()['ratingsLabel']
     ratings_count = get_hospital_overall_rating_and_count()['ratingsCount']
-    
+
     # Package Data
     context = {
-        "hospitalWithNoEr" : hospital_count - er_count,
-        "hospitalWithEr" : er_count,
-        "experienceLabel" : experience_label,
-        "experienceCount" : experience_count,
-        "ratingsLabel" : ratings_label,
-        "ratingsCount" : ratings_count,
+        "hospitalWithNoEr": hospital_count - er_count,
+        "hospitalWithEr": er_count,
+        "experienceLabel": experience_label,
+        "experienceCount": experience_count,
+        "ratingsLabel": ratings_label,
+        "ratingsCount": ratings_count,
     }
 
     # Return to render
     return render(request, 'infographics.html', context)
+
 
 def filters(request):
     rs = request.GET.get('rs', '')
@@ -120,4 +122,3 @@ def kb(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, 'hospital_kb.html', context=ctx)
-

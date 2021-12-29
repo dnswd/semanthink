@@ -43,6 +43,13 @@
 						<th>: </th>
 						<td>{{ d.county.value }}</td>
 					</tr>
+					{% if d.country %}
+					<tr>
+						<th>Country</th>
+						<th>: </th>
+						<td>{{ d.country.value }}</td>
+					</tr>
+					{% endif %}
 					<tr>
 						<th>State</th>
 						<th>: </th>
