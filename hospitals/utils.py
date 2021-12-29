@@ -180,39 +180,39 @@ def get_rs_info(rs: str) -> Dict:
     GET_RS_INFO = (
         'SELECT * WHERE {'
         f'''
-			<{rs}> :careEffectiveness ?care_effective ;
-	           :careEffectivenessFootnote ?care_effective_fn ;
-	           :careSafety ?care_safety ;
-	           :careSafetyFootnote ?care_safety_fn ;
-	           :careTimeliness ?care_timeliness ;
-	           :careTimelinessFootnote ?care_timeliness_fn ;
-	           :city ?city_uri ;
-	           :county ?county_uri ;
-	           :hasEmergencyServices ?has_emergency ;
-	           :hasProviderID ?provider_id ;
-	           :medicalImagingEfficientUse ?mi_efficiency ;
-	           :medicalImagingEfficientUseFootnote ?mi_efficiency_fn ;
-	           :meetsMeaningfulUseOfEHRs ?meaningful_ehr ;
-	           :mortality ?mortality ;
-	           :mortalityFootnote ?mortality_fn ;
-	           :ownership ?ownership ;
-	           :patientExperience ?patient_experience ;
-	           :patientExperienceFootnote ?patient_experience_fn ;
-	           :phoneNumber ?phone ;
-	           :rating ?rating ;
-	           :ratingFootnote ?rating_fn ;
-	           :readmission ?readmission ;
-	           :readmissionFootnote ?readmission_dn ;
-	           :state ?state_uri ;
-	           :type ?type ;
-	           :zipCode ?zip_code ;
-	     schema:address ?address ;
-	       foaf:name ?name .
-	
-      ?city_uri foaf:name ?city .
-      ?county_uri foaf:name ?county .
-      ?state_uri foaf:name ?state .
-      '''
+			  <{rs}>  :careEffectiveness ?care_effective ;
+	              :careEffectivenessFootnote ?care_effective_fn ;
+	              :careSafety ?care_safety ;
+	              :careSafetyFootnote ?care_safety_fn ;
+	              :careTimeliness ?care_timeliness ;
+	              :careTimelinessFootnote ?care_timeliness_fn ;
+	              :city ?city_uri ;
+	              :county ?county_uri ;
+	              :hasEmergencyServices ?has_emergency ;
+	              :hasProviderID ?provider_id ;
+	              :medicalImagingEfficientUse ?mi_efficiency ;
+	              :medicalImagingEfficientUseFootnote ?mi_efficiency_fn ;
+	              :meetsMeaningfulUseOfEHRs ?meaningful_ehr ;
+	              :mortality ?mortality ;
+	              :mortalityFootnote ?mortality_fn ;
+	              :ownership ?ownership ;
+	              :patientExperience ?patient_experience ;
+	              :patientExperienceFootnote ?patient_experience_fn ;
+	              :phoneNumber ?phone ;
+	              :rating ?rating ;
+	              :ratingFootnote ?rating_fn ;
+	              :readmission ?readmission ;
+	              :readmissionFootnote ?readmission_dn ;
+	              :state ?state_uri ;
+	              :type ?type ;
+	              :zipCode ?zip_code ;
+	        schema:address ?address ;
+	          foaf:name ?name .
+	  
+          ?city_uri foaf:name ?city .
+          ?county_uri foaf:name ?county .
+          ?state_uri foaf:name ?state .
+        '''
         '}')
     result = query(GET_RS_INFO)
-    return result['results']['bindings'][0]
+    return result['results']['bindings']

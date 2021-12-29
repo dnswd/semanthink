@@ -1,8 +1,6 @@
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
-from pymantic import sparql
-from pprint import pprint
+from django.http import HttpRequest, HttpResponseNotFound
 from .utils import *
 
 index_context = dict()
@@ -69,28 +67,21 @@ def filters(request):
     return render(request, 'index.html', index_context)
 
 
-def kb(request: HttpRequest):
+def kb(request: HttpRequest) -> HttpResponse:
     query_param = request.GET
     hospital = query_param.get('hospital', None)
 
     if not hospital:
         return HttpResponseNotFound("hospital query is required")
 
-    # query = (f"SELECT ?p ?o "
-    #          "WHERE {"
-    #          f"<{hospital}> ?p ?o"
-    #          "} ")
-
-    # result = server.query(prefixes + query)
     predicate_obj = get_rs_info(hospital)
 
     if not len(predicate_obj):
         return HttpResponseNotFound("hospital invalid")
 
     ctx = {
-        'd': predicate_obj,
+        'd': predicate_obj[0],
         'n': 'No information'
     }
 
-    # return JsonResponse(predicate_obj)
     return render(request, 'hospital_kb.html', context=ctx)
