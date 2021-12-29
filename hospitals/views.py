@@ -23,6 +23,23 @@ def index(request):
 
     return render(request, 'index.html', index_context)
 
+def cities_dbpedia(request):
+    cities_in_dbpedia = get_cities_in_dbpedia()
+    
+    ctx = {
+        'cities': cities_in_dbpedia,
+    }
+    
+    return render(request, 'dbp-city.html', ctx)
+
+def counties_dbpedia(request):
+    counties_in_dbpedia = get_counties_in_dbpedia()
+    
+    ctx = {
+        'counties': counties_in_dbpedia,
+    }
+    
+    return render(request, 'dbp-county.html', ctx)
 
 def infographics(request):
 
