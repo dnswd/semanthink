@@ -1,9 +1,8 @@
 from typing import Dict
 from pymantic import sparql
 
-# TODO: set up env variables(Heroku env variables/?)
 server = sparql.SPARQLServer(
-    'http://169.254.0.72:9999/blazegraph/namespace/kb/sparql')
+    'http://35.193.99.49:9999/blazegraph/namespace/kb/sparql')
 
 # Loading data to Blazegraph
 server.update(
