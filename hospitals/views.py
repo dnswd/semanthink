@@ -25,28 +25,28 @@ def index(request):
 
 def infographics(request):
 
-	# Make query calls from utils.py, and extract them
-	hospital_count = get_hospital_count()
-	er_count = get_er_count()
+    # Make query calls from utils.py, and extract them
+    hospital_count = get_hospital_count()
+    er_count = get_er_count()
 
-	experience_label = get_patient_experiences_and_count()['experienceLabel']
-	experience_count = get_patient_experiences_and_count()['experienceCount']
-	
-	ratings_label = get_hospital_overall_rating_and_count()['ratingsLabel']
-	ratings_count = get_hospital_overall_rating_and_count()['ratingsCount']
-	
-	# Package Data
-	context = {
-		"hospitalWithNoEr" : hospital_count - er_count,
-		"hospitalWithEr" : er_count,
-		"experienceLabel" : experience_label,
-		"experienceCount" : experience_count,
-		"ratingsLabel" : ratings_label,
-		"ratingsCount" : ratings_count,
-	}
+    experience_label = get_patient_experiences_and_count()['experienceLabel']
+    experience_count = get_patient_experiences_and_count()['experienceCount']
+    
+    ratings_label = get_hospital_overall_rating_and_count()['ratingsLabel']
+    ratings_count = get_hospital_overall_rating_and_count()['ratingsCount']
+    
+    # Package Data
+    context = {
+        "hospitalWithNoEr" : hospital_count - er_count,
+        "hospitalWithEr" : er_count,
+        "experienceLabel" : experience_label,
+        "experienceCount" : experience_count,
+        "ratingsLabel" : ratings_label,
+        "ratingsCount" : ratings_count,
+    }
 
-	# Return to render
-	return render(request, 'infographics.html', context)
+    # Return to render
+    return render(request, 'infographics.html', context)
 
 def filters(request):
     rs = request.GET.get('rs', '')
@@ -86,7 +86,11 @@ def filters(request):
         results = get_rs_by_ehr(ehr)
         index_context['q'] = '[EHR] ' + 'Yes'
 
-    index_context['results'] = results
+    try:
+        if results:
+            index_context['results'] = results
+    except:
+        index_context['results'] = None
 
     return render(request, 'index.html', index_context)
 
