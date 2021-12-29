@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ d.name.value }}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+	<div class="grid grid-centered">
+		<div class="grid-cell">
+			<nav class="header-nav">
+				<a class="header-logo toggle-dark-mode" title="Dennis Walangadi">{{ d.name.value }}</a>
+			</nav>
+
+			<div class="about">
+				<table>
+					<tr>
+						<th>Name</th>
+						<th>: </th>
+						<td>{{ d.name.value }}</td>
+					</tr>
+					<tr>
+						<th>Phone</th>
+						<th>: </th>
+						<td><code>{{ d.phone.value }}</code></td>
+					</tr>
+					<tr>
+						<th>Address</th>
+						<th>: </th>
+						<td>{{ d.address.value }}</td>
+					</tr>
+					<tr>
+						<th>City</th>
+						<th>: </th>
+						<td>{{ d.city.value }}</td>
+					</tr>
+					<tr>
+						<th>County</th>
+						<th>: </th>
+						<td>{{ d.county.value }}</td>
+					</tr>
+					<tr>
+						<th>State</th>
+						<th>: </th>
+						<td>{{ d.state.value }}</td>
+					</tr>
+					<tr>
+						<th>Zip Code</th>
+						<th>: </th>
+						<td><code>{{ d.zip_code.value }}</code></td>
+					</tr>
+					<tr>
+						<th>Hospital type:</th>
+						<th>: </th>
+						<td>{{ d.type.value }}</td>
+					</tr>
+					<tr>
+						<th>Provider ID:</th>
+						<th>: </th>
+						<td>{{ d.provider_id.value }}</td>
+					</tr>
+					<tr>
+						<th>Has emergency service:</th>
+						<th>: </th>
+						<td>{{ d.has_emergency.value }}</td>
+					</tr>
+					<tr>
+						<th>Meaningful EHR:</th>
+						<th>: </th>
+						<td>{{ d.meaningful_ehr.value }}</td>
+					</tr>
+					<tr>
+						<th>Ownership:</th>
+						<th>: </th>
+						<td>{{ d.ownership.value }}</td>
+					</tr>
+
+				</table>
+				<h2>Hospital Report</h2>
+				<table>
+
+					<tr>
+						<th>Rating</th>
+						<th>: </th>
+						{% if d.rating_fn.value == n %}
+						<td>{{ d.rating.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.rating_fn.value }}</td>
+						{% endif %}
+					</tr>
+					
+					<tr>
+						<th>Care effectiveness</th>
+						<th>: </th>
+						{% if d.care_effective_fn.value == n %}
+						<td>{{ d.care_effective.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.care_effective_fn.value }}</td>
+						{% endif %}
+					</tr>
+
+					<tr>
+						<th>Care safety</th>
+						<th>: </th>
+						{% if d.care_safety_fn.value == n %}
+						<td>{{ d.care_safety.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.care_safety_fn.value }}</td>
+						{% endif %}
+					</tr>
+
+					<tr>
+						<th>Care timeliness</th>
+						<th>: </th>
+						{% if d.care_timeliness_fn.value == n %}
+						<td>{{ d.care_timeliness.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.care_timeliness_fn.value }}</td>
+						{% endif %}
+					</tr>
+
+					<tr>
+						<th>Medical imaging efficient use </th>
+						<th>: </th>
+						{% if d.mi_efficiency_fn.value == n %}
+						<td>{{ d.mi_efficiency.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.mi_efficiency_fn.value }}</td>
+						{% endif %}
+					</tr>
+
+					<tr>
+						<th>Mortality rate</th>
+						<th>: </th>
+						{% if d.mortality_fn.value == n %}
+						<td>{{ d.mortality.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.mortality_fn.value }}</td>
+						{% endif %}
+					</tr>
+
+					<tr>
+						<th>Patient experience</th>
+						<th>: </th>
+						{% if d.patient_experience_fn.value == n %}
+						<td>{{ d.patient_experience.value }}</td>
+						{% else %}
+						<td style="color: red;">{{ d.patient_experience_fn.value }}</td>
+						{% endif %}
+					</tr>
+
+				</table>
+
+			</div>
+		</div>
+	</div>
+</body>
+</html>
