@@ -11,11 +11,14 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
-
+    
     <title>Hospital Ratings</title>
   </head>
   <body>
     <div class="container-fluid p-5">
+      <a href="{% url 'infographics' %}" target="_blank">   
+        <button style="margin-bottom: 20px;" type="submit">Looking for infographics?</button>
+      </a>
       <div class="win-sm">
         <h1>Hospital Ratings</h1>
       </div>
@@ -278,7 +281,7 @@
             {% for result in results %}
             <div class="card">
               <div class="card-body">
-                {{ result }}
+                <a href="{% url 'knowledge_box' %}?hospital={{result}}" target="_blank">{{ result }}</a>
               </div>
             </div>
             {% endfor %}
