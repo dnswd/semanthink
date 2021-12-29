@@ -54,7 +54,6 @@ def infographics(request):
     ratings_count = get_hospital_overall_rating_and_count()['ratingsCount']
 
     dbpediaHospitals = [ i.lower() for i in get_dbpedia_hospital() ]
-    print(len(dbpediaHospitals))
     localHospitals = [ i.lower() for i in get_local_hospital() ]
 
     # Package Data
